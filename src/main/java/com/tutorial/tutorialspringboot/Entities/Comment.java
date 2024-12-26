@@ -1,5 +1,6 @@
 package com.tutorial.tutorialspringboot.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +15,7 @@ public class Comment {
     private String email;
     private String content;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publication_id", nullable = false)
     private Publication publication;

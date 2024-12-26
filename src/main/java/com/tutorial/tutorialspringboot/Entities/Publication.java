@@ -1,5 +1,6 @@
 package com.tutorial.tutorialspringboot.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -22,6 +23,7 @@ public class Publication {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @JsonBackReference
     @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 
@@ -60,10 +62,20 @@ public class Publication {
     public Publication() {
     }
 
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
     public Publication(Long id, String title, String description, String content) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.content = content;
     }
+
+
 }

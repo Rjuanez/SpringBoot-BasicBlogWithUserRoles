@@ -1,5 +1,9 @@
 package com.tutorial.tutorialspringboot.DTO;
 
+import com.tutorial.tutorialspringboot.Entities.Comment;
+
+import java.util.Set;
+
 public class PublicationDTO {
 
 
@@ -7,6 +11,16 @@ public class PublicationDTO {
     private String title;
     private String description;
     private String content;
+
+    private Set<Comment> comments;
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Long getId() {
         return id;

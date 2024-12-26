@@ -8,6 +8,7 @@ import com.tutorial.tutorialspringboot.Exeption.BlogAppException;
 import com.tutorial.tutorialspringboot.Exeption.ResourceNotFoundException;
 import com.tutorial.tutorialspringboot.Repositories.CommentRespository;
 import com.tutorial.tutorialspringboot.Repositories.PublicationRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ import java.util.List;
 
 @Service
 public class CommentServiceImp implements CommentService{
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private CommentRespository commentRespository;
@@ -91,23 +95,23 @@ public class CommentServiceImp implements CommentService{
     }
 
     private CommentDTO mapToCommentDTO(Comment comment) {
-        CommentDTO commentDTO = new CommentDTO();
-        commentDTO.setId(comment.getId());
-        commentDTO.setName(comment.getName());
-        commentDTO.setEmail(comment.getEmail());
-        commentDTO.setContent(comment.getContent());
+//        CommentDTO commentDTO = new CommentDTO();
+//        commentDTO.setId(comment.getId());
+//        commentDTO.setName(comment.getName());
+//        commentDTO.setEmail(comment.getEmail());
+//        commentDTO.setContent(comment.getContent());
 
-        return commentDTO;
+        return modelMapper.map(comment, CommentDTO.class);
 
     }
 
     private Comment mapToComment(CommentDTO commentDTO) {
-        Comment comment = new Comment();
-        comment.setId(commentDTO.getId());
-        comment.setName(commentDTO.getName());
-        comment.setEmail(commentDTO.getEmail());
-        comment.setContent(commentDTO.getContent());
+//        Comment comment = new Comment();
+//        comment.setId(commentDTO.getId());
+//        comment.setName(commentDTO.getName());
+//        comment.setEmail(commentDTO.getEmail());
+//        comment.setContent(commentDTO.getContent());
 
-        return comment;
+        return modelMapper.map(commentDTO, Comment.class);
     }
 }

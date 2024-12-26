@@ -5,6 +5,7 @@ import com.tutorial.tutorialspringboot.Entities.Publication;
 import com.tutorial.tutorialspringboot.DTO.ResponsePublication;
 import com.tutorial.tutorialspringboot.Exeption.ResourceNotFoundException;
 import com.tutorial.tutorialspringboot.Repositories.PublicationRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +17,9 @@ import java.util.List;
 
 @Service
 public class PublicationServiceImp implements PublicationService {
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Autowired
     private PublicationRepository publicationRepository;
@@ -80,21 +84,16 @@ public class PublicationServiceImp implements PublicationService {
     }
 
     private PublicationDTO mapToPublicationDTO(Publication publication) {
-        PublicationDTO publicationDTO = new PublicationDTO();
-        publicationDTO.setId(publication.getId());
-        publicationDTO.setTitle(publication.getTitle());
-        publicationDTO.setDescription(publication.getDescription());
-        publicationDTO.setContent(publication.getContent());
-        return publicationDTO;
+        return modelMapper.map(publication, PublicationDTO.class);
     }
 
     private Publication mapToPublication(PublicationDTO publicationDTO) {
-        Publication publication = new Publication();
-        publication.setId(publicationDTO.getId());
-        publication.setTitle(publicationDTO.getTitle());
-        publication.setDescription(publicationDTO.getDescription());
-        publication.setContent(publicationDTO.getContent());
-        return publication;
+//        Publication publication = new Publication();
+//        publication.setId(publicationDTO.getId());
+//        publication.setTitle(publicationDTO.getTitle());
+//        publication.setDescription(publicationDTO.getDescription());
+//        publication.setContent(publicationDTO.getContent());
+        return modelMapper.map(publicationDTO, Publication.class);
     }
 
 
