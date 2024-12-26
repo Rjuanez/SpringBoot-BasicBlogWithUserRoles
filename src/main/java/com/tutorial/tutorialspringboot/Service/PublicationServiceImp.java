@@ -75,6 +75,7 @@ public class PublicationServiceImp implements PublicationService {
     @Override
     public void deletePublication(long id) {
         Publication publication = publicationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Publication", "id", id));
+
         publicationRepository.delete(publication);
     }
 
