@@ -5,6 +5,9 @@ import com.tutorial.tutorialspringboot.Entities.Publication;
 import com.tutorial.tutorialspringboot.Exeption.ResourceNotFoundException;
 import com.tutorial.tutorialspringboot.Repositories.PublicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,9 +35,12 @@ public class PublicationServiceImp implements PublicationService {
     }
 
     @Override
-    public List<PublicationDTO> getAllPublications() {
-        List<Publication> publications = publicationRepository.findAll();
-        return publications.stream().map(this::mapToPublicationDTO).collect(Collectors.toList());
+    public List<PublicationDTO> getAllPublications(int pageNumber, int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<Publication> publications = publicationRepository.findAll(pageable);
+
+        List<Publication> publicationsList = publications.getContent();
+        return publicationsList.stream().map(this::mapToPublicationDTO).collect(Collectors.toList());
     }
 
     @Override

@@ -23,8 +23,8 @@ public class PublicationController {
     }
 
     @GetMapping
-    public List<PublicationDTO> getAllPublications() {
-        return publicationService.getAllPublications();
+    public List<PublicationDTO> getAllPublications(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNumber, @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize ) {
+        return publicationService.getAllPublications(pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")
