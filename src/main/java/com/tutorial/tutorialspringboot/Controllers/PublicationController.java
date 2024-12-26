@@ -1,14 +1,12 @@
 package com.tutorial.tutorialspringboot.Controllers;
 
 import com.tutorial.tutorialspringboot.DTO.PublicationDTO;
-import com.tutorial.tutorialspringboot.Entities.Publication;
+import com.tutorial.tutorialspringboot.DTO.ResponsePublication;
 import com.tutorial.tutorialspringboot.Service.PublicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/publication")
@@ -23,7 +21,7 @@ public class PublicationController {
     }
 
     @GetMapping
-    public List<PublicationDTO> getAllPublications(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNumber, @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize ) {
+    public ResponsePublication getAllPublications(@RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNumber, @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize ) {
         return publicationService.getAllPublications(pageNumber, pageSize);
     }
 

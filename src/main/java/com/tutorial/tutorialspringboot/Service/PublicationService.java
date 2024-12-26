@@ -1,14 +1,14 @@
 package com.tutorial.tutorialspringboot.Service;
 
 import com.tutorial.tutorialspringboot.DTO.PublicationDTO;
+import com.tutorial.tutorialspringboot.DTO.ResponsePublication;
 
-import java.util.List;
 
 public interface PublicationService {
 
     public PublicationDTO createPublication(PublicationDTO publicationDTO);
 
-    public List<PublicationDTO> getAllPublications(int pageNumber, int pageSize);
+    public ResponsePublication getAllPublications(int pageNumber, int pageSize);
 
     public PublicationDTO getPublicationById(long id);
 

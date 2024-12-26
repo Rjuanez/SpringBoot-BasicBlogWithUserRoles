@@ -2,18 +2,16 @@ package com.tutorial.tutorialspringboot.Service;
 
 import com.tutorial.tutorialspringboot.DTO.PublicationDTO;
 import com.tutorial.tutorialspringboot.Entities.Publication;
+import com.tutorial.tutorialspringboot.DTO.ResponsePublication;
 import com.tutorial.tutorialspringboot.Exeption.ResourceNotFoundException;
 import com.tutorial.tutorialspringboot.Repositories.PublicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class PublicationServiceImp implements PublicationService {
@@ -35,12 +33,23 @@ public class PublicationServiceImp implements PublicationService {
     }
 
     @Override
-    public List<PublicationDTO> getAllPublications(int pageNumber, int pageSize) {
+    public ResponsePublication getAllPublications(int pageNumber, int pageSize) {
+        // Generamos la paginacion y se lo pasamos al repositorio !! Pageable tiene que ser de tipo: import org.springframework.data.domain.Pageable;
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<Publication> publications = publicationRepository.findAll(pageable);
 
-        List<Publication> publicationsList = publications.getContent();
-        return publicationsList.stream().map(this::mapToPublicationDTO).collect(Collectors.toList());
+        // Hacemos get content de las publicaciones pageadas, y lo convertimos a una lista de DTOs
+        List<PublicationDTO> content = publications.getContent().stream().map(this::mapToPublicationDTO).toList();
+
+        ResponsePublication publicationResponse = new ResponsePublication();
+        publicationResponse.setContent(content);
+        publicationResponse.setPageNumber(publications.getNumber());
+        publicationResponse.setPageSize(publications.getSize());
+        publicationResponse.setTotalElements(publications.getTotalElements());
+        publicationResponse.setTotalPages(publications.getTotalPages());
+        publicationResponse.setLast(publications.isLast());
+
+        return publicationResponse;
     }
 
     @Override
