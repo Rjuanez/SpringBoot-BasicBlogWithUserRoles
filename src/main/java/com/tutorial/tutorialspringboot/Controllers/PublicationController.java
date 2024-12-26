@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,6 +18,7 @@ public class PublicationController {
     @Autowired
     private PublicationService publicationService;
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<PublicationDTO> savePublication(@Valid @RequestBody PublicationDTO publicationDTO) {
         return new ResponseEntity<>(publicationService.createPublication(publicationDTO), HttpStatus.CREATED);
@@ -35,11 +37,13 @@ public class PublicationController {
         return new ResponseEntity<>(publicationService.getPublicationById(id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<PublicationDTO> updatePublication(@PathVariable(name = "id") long id, @RequestBody PublicationDTO publicationDTO) {
         return new ResponseEntity<>(publicationService.updatePublication(publicationDTO, id), HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deletePublication(@PathVariable(name = "id") long id) {
         publicationService.deletePublication(id);
