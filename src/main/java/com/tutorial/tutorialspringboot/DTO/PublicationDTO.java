@@ -1,6 +1,8 @@
 package com.tutorial.tutorialspringboot.DTO;
 
 import com.tutorial.tutorialspringboot.Entities.Comment;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 
 import java.util.Set;
 
@@ -8,8 +10,17 @@ public class PublicationDTO {
 
 
     private Long id;
+
+    @NotEmpty
+    @Size(min = 2, message = "Publication title must be at least 2 chars ")
     private String title;
+
+    @NotEmpty
+    @Size(min = 10, message = "Publication description must be at least 10 chars ")
     private String description;
+
+    @NotEmpty(message = "Publication content can't be empty")
+    @Size(min = 15, message = "Publication content must be at least 15 char ")
     private String content;
 
     private Set<Comment> comments;

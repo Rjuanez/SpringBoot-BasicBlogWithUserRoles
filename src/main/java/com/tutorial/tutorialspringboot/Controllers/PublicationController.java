@@ -4,6 +4,7 @@ import com.tutorial.tutorialspringboot.DTO.PublicationDTO;
 import com.tutorial.tutorialspringboot.DTO.ResponsePublication;
 import com.tutorial.tutorialspringboot.Service.PublicationService;
 import com.tutorial.tutorialspringboot.Util.AppConstants;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class PublicationController {
     private PublicationService publicationService;
 
     @PostMapping
-    public ResponseEntity<PublicationDTO> savePublication(@RequestBody PublicationDTO publicationDTO) {
+    public ResponseEntity<PublicationDTO> savePublication(@Valid @RequestBody PublicationDTO publicationDTO) {
         return new ResponseEntity<>(publicationService.createPublication(publicationDTO), HttpStatus.CREATED);
     }
 

@@ -1,10 +1,22 @@
 package com.tutorial.tutorialspringboot.DTO;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+
 public class CommentDTO {
 
     private long id;
+
+    @NotEmpty(message = "Name can't be empty")
     private String name;
+
+    @NotEmpty(message = "Email can't be empty")
+    @Email
     private String email;
+
+    @NotEmpty
+    @Size(min = 2, max = 100)
     private String content;
 
     public CommentDTO() {
