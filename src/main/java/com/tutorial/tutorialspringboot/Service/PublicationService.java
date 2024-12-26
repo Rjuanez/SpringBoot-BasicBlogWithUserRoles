@@ -8,7 +8,7 @@ public interface PublicationService {
 
     public PublicationDTO createPublication(PublicationDTO publicationDTO);
 
-    public ResponsePublication getAllPublications(int pageNumber, int pageSize);
+    public ResponsePublication getAllPublications(int pageNumber, int pageSize, String sortBy, String sortDir);
 
     public PublicationDTO getPublicationById(long id);
 

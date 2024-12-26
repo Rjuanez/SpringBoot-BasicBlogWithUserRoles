@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,9 +34,10 @@ public class PublicationServiceImp implements PublicationService {
     }
 
     @Override
-    public ResponsePublication getAllPublications(int pageNumber, int pageSize) {
+    public ResponsePublication getAllPublications(int pageNumber, int pageSize, String sortBy, String sortDir) {
         // Generamos la paginacion y se lo pasamos al repositorio !! Pageable tiene que ser de tipo: import org.springframework.data.domain.Pageable;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(pageNumber, pageSize, sort);
         Page<Publication> publications = publicationRepository.findAll(pageable);
 
         // Hacemos get content de las publicaciones pageadas, y lo convertimos a una lista de DTOs
