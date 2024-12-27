@@ -1,6 +1,7 @@
 package com.tutorial.tutorialspringboot.Controllers;
 
 import com.tutorial.tutorialspringboot.Config.SecurityConfig;
+import com.tutorial.tutorialspringboot.DTO.JwtAuthResponseDTO;
 import com.tutorial.tutorialspringboot.DTO.LoginDTO;
 import com.tutorial.tutorialspringboot.DTO.RegisterDTO;
 import com.tutorial.tutorialspringboot.Entities.Role;
@@ -8,6 +9,7 @@ import com.tutorial.tutorialspringboot.Entities.User;
 import com.tutorial.tutorialspringboot.Exeption.BlogAppException;
 import com.tutorial.tutorialspringboot.Repositories.RoleRespository;
 import com.tutorial.tutorialspringboot.Repositories.UserRepository;
+import com.tutorial.tutorialspringboot.Security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,14 +42,18 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
+
     @PostMapping("/login")
-    public ResponseEntity<String> authenticateUser(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<JwtAuthResponseDTO> authenticateUser(@RequestBody LoginDTO loginDTO) {
         // guardmaos en objeto authneticate
         Authentication auhtorization = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginDTO.getUsernameOrEmail(), loginDTO.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(auhtorization);
+        String token = jwtTokenProvider.generateToken(auhtorization);
 
-        return ResponseEntity.ok("Bearer " + auhtorization.getPrincipal());
+        return ResponseEntity.ok(new JwtAuthResponseDTO(token));
     }
 
     @PostMapping("/register")
